@@ -1,0 +1,42 @@
+name: DevSecOps Pipeline - Build Vermelho (Quality Gate)
+
+on:
+  workflow_dispatch: # Permite execução manual no painel do GitHub
+  push:
+    branches: [main]
+
+jobs:
+  sast-semgrep:
+    name: SAST Scan (Semgrep)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v3
+
+      - name: Executar Semgrep com Quality Gate
+        run: |
+          docker run --rm \
+            -v $(pwd):/src \
+            returntocorp/semgrep \
+            semgrep scan \
+            --config=p/owasp-top-ten \
+            --error \
+            /src
+
+  iac-checkov:
+    name: IaC Security Scan (Checkov)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v3
+
+      - name: Executar Checkov com Quality Gate
+        run: |
+          docker run --rm \
+            -v $(pwd):/tf \
+            bridgecrew/checkov \
+            --directory /tf/target \
+            --soft-fail=false
+

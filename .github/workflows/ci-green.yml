@@ -1,0 +1,39 @@
+name: DevSecOps Pipeline - Build Verde (Aprovado)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sast-semgrep:
+    name: SAST Scan (Semgrep) - Aprovado
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v3
+
+      - name: Executar Semgrep (Apenas Alertas)
+        run: |
+          docker run --rm \
+            -v $(pwd):/src \
+            returntocorp/semgrep \
+            semgrep scan \
+            --config=p/owasp-top-ten \
+            /src
+
+  iac-checkov:
+    name: IaC Security Scan (Checkov) - Aprovado
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v3
+
+      - name: Executar Checkov (Soft Fail)
+        run: |
+          docker run --rm \
+            -v $(pwd):/tf \
+            bridgecrew/checkov \
+            --directory /tf/target \
+            --soft-fail
+
