@@ -37,7 +37,7 @@ docker compose up -d
 * **Comando:**
 
 ```
-docker run --rm -v \$(pwd):/src returntocorp/semgrep semgrep scan --config=p/owasp-top-ten /src
+podman run --rm -v $(pwd):/src:Z docker.io/returntocorp/semgrep semgrep scan --config=p/owasp-top-ten --config=p/secrets /src
 
 ```
 
