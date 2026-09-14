@@ -23,7 +23,7 @@ docker pull bkimminich/juice-shop:v15.0.0
 
 ```
 docker compose up -d
-`podman run -d --name juice-shop-test -p 3000:3000 docker.io/bkimminich/juice-shop:v15.0.0`
+podman run -d --name juice-shop-test -p 3000:3000 docker.io/bkimminich/juice-shop:v15.0.0
 
 ```
 
@@ -39,6 +39,8 @@ docker compose up -d
 ```
 podman run --rm -v $(pwd):/src:Z docker.io/returntocorp/semgrep semgrep scan --config=p/owasp-top-ten --config=p/secrets /src
 
+podman run --rm -v $(pwd):/src:Z docker.io/returntocorp/semgrep semgrep scan --config=p/owasp-top-ten --config=p/secrets --json --output=/src/reports/semgrep-report.json /src
+
 ```
 
 * **Resultado esperado:** Varredura estática no código Python (`target/app.py`) apontando a detecção de segredo exposto no código (*hardcoded credential/API key*).
@@ -52,6 +54,8 @@ podman run --rm -v $(pwd):/src:Z docker.io/returntocorp/semgrep semgrep scan --c
 ```
 docker run --rm -v \$(pwd):/tf bridgecrew/checkov --directory /tf/target
 podman run --rm -v $(pwd):/tf:Z docker.io/bridgecrew/checkov --directory /tf/target
+
+podman run --rm -v $(pwd):/tf:Z docker.io/bridgecrew/checkov --directory /tf/target -o json &gt; reports/checkov-report.json
 
 ```
 
