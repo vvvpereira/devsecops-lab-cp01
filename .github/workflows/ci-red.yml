@@ -39,5 +39,4 @@ jobs:
             -v $(pwd):/tf \
             bridgecrew/checkov \
             --directory /tf/target \
-            --soft-fail=false
 
