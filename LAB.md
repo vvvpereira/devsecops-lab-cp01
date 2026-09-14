@@ -23,6 +23,7 @@ docker pull bkimminich/juice-shop:v15.0.0
 
 ```
 docker compose up -d
+`podman run -d --name juice-shop-test -p 3000:3000 docker.io/bkimminich/juice-shop:v15.0.0`
 
 ```
 
