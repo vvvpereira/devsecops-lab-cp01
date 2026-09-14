@@ -51,6 +51,7 @@ podman run --rm -v $(pwd):/src:Z docker.io/returntocorp/semgrep semgrep scan --c
 
 ```
 docker run --rm -v \$(pwd):/tf bridgecrew/checkov --directory /tf/target
+podman run --rm -v $(pwd):/tf:Z docker.io/bridgecrew/checkov --directory /tf/target
 
 ```
 
